@@ -32,6 +32,10 @@ func (v *LocalVar) Bool() bool {
 	return false
 }
 
+func (v *LocalVar) Write(p []byte) (n int, err error) {
+	return v.buffer.Write(p)
+}
+
 func Var() *LocalVar {
 	return &LocalVar{
 		&bytes.Buffer{},

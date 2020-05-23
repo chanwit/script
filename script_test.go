@@ -17,3 +17,12 @@ func TestRunWithYq(t *testing.T) {
 
 	assert.Equal(t, "absent", output.String())
 }
+
+func TestEcho(t *testing.T) {
+	output := Var()
+	err := Echo("hello world").To(output)
+	assert.NoError(t, err, "Should not have any error")
+
+	assert.Equal(t, "hello world\n", output.RawString())
+	assert.Equal(t, "hello world", output.String())
+}

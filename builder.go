@@ -1,7 +1,8 @@
 package script
 
 import (
-	"bytes"
+	"io"
+
 	"gopkg.in/pipe.v2"
 )
 
@@ -23,13 +24,11 @@ func (b *Builder) Run() error {
 	return pipe.Run(pipe.Line(b.pipes...))
 }
 
-func (b *Builder) To(v *LocalVar) error {
-	output, err := pipe.Output(pipe.Line(b.pipes...))
-	v.buffer = bytes.NewBuffer(output)
-	return err
+func (b *Builder) To(w io.Writer) error {
+	pipes := append(b.pipes, pipe.Write(w))
+	return pipe.Run(pipe.Line(pipes...))
 }
 
 func NewBuilder() *Builder {
 	return &Builder{[]pipe.Pipe{}}
 }
-
