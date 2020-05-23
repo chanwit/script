@@ -26,3 +26,9 @@ func TestEcho(t *testing.T) {
 	assert.Equal(t, "hello world\n", output.RawString())
 	assert.Equal(t, "hello world", output.String())
 }
+
+
+func TestEchoToStdout(t *testing.T) {
+	err := Echo("hello world").To(Stdout())
+	assert.NoError(t, err, "Should not have any error")
+}
