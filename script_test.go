@@ -27,8 +27,17 @@ func TestEcho(t *testing.T) {
 	assert.Equal(t, "hello world", output.String())
 }
 
-
 func TestEchoToStdout(t *testing.T) {
 	err := Echo("hello world").To(Stdout())
 	assert.NoError(t, err, "Should not have any error")
+}
+
+func TestExport(t *testing.T) {
+	output := Var()
+	err := Export("EKSCTL_EXPERIMENTAL=1").
+		Exec("bash", "-c", "echo $EKSCTL_EXPERIMENTAL").
+		To(output)
+
+	assert.NoError(t, err, "Should not have any error")
+	assert.Equal(t, "1", output.String())
 }

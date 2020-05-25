@@ -15,8 +15,8 @@ func (b *Builder) Exec(name string, args ...string) *Builder {
 	return b
 }
 
-func (b *Builder) Tee(v *LocalVar) *Builder {
-	b.pipes = append(b.pipes, pipe.Tee(v.buffer))
+func (b *Builder) Tee(w io.Writer) *Builder {
+	b.pipes = append(b.pipes, pipe.Tee(w))
 	return b
 }
 

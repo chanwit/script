@@ -7,7 +7,12 @@ import (
 )
 
 type LocalVar struct {
+	name   string
 	buffer *bytes.Buffer
+}
+
+type Exportable interface {
+	Export() (string, string)
 }
 
 func (v *LocalVar) RawString() string {
@@ -36,8 +41,20 @@ func (v *LocalVar) Write(p []byte) (n int, err error) {
 	return v.buffer.Write(p)
 }
 
+func (v *LocalVar) Export() (string, string) {
+	return v.name, v.String()
+}
+
 func Var() *LocalVar {
 	return &LocalVar{
+		"",
+		&bytes.Buffer{},
+	}
+}
+
+func NamedVar(name string) *LocalVar {
+	return &LocalVar{
+		name,
 		&bytes.Buffer{},
 	}
 }
