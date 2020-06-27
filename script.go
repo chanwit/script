@@ -26,6 +26,12 @@ func Export(i interface{}) *Builder {
 	return b
 }
 
+func System(cmd string) *Builder {
+	b := NewBuilder()
+	b.pipes = append(b.pipes, pipe.System(cmd))
+	return b
+}
+
 func Sudo(args ...string) error {
 	sudoWithArgs := strings.Join(append([]string{"sudo"}, args...), " ")
 	cmd := exec.Command("sh", "-c", sudoWithArgs)
