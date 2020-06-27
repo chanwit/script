@@ -4,6 +4,7 @@ import (
 	"gopkg.in/pipe.v2"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 func Exec(name string, args ...string) *Builder {
@@ -25,8 +26,8 @@ func Export(i interface{}) *Builder {
 	return b
 }
 
-func Sudo(name string, args ...string) error {
-	cmd := exec.Command("sudo", append([]string{name}, args...)...)
+func Sudo(args ...string) error {
+	cmd := exec.Command("sh", "-c", "sudo", strings.Join(args, " "))
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
