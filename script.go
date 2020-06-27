@@ -27,7 +27,8 @@ func Export(i interface{}) *Builder {
 }
 
 func Sudo(args ...string) error {
-	cmd := exec.Command("sh", "-c", "sudo", strings.Join(args, " "))
+	sudoWithArgs := strings.Join(append([]string{"sudo"}, args...), " ")
+	cmd := exec.Command("sh", "-c", sudoWithArgs)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
