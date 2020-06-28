@@ -2,6 +2,7 @@ package script
 
 import (
 	"io"
+	"os"
 	"strings"
 
 	"gopkg.in/pipe.v2"
@@ -22,6 +23,11 @@ func (b *Builder) Exec(name string, args ...string) *Builder {
 
 func (b *Builder) Tee(w io.Writer) *Builder {
 	b.pipes = append(b.pipes, pipe.Tee(w))
+	return b
+}
+
+func (b *Builder) WriteFile(path string, perm os.FileMode) *Builder {
+	b.pipes = append(b.pipes, pipe.WriteFile(path, perm))
 	return b
 }
 
