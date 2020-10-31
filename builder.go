@@ -1,6 +1,7 @@
 package script
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -17,16 +18,28 @@ func NewBuilder() *Builder {
 }
 
 func (b *Builder) Exec(name string, args ...string) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] Build.Exec %s %s\n", name, strings.Join(args, " "))
+	}
+
 	b.pipes = append(b.pipes, pipe.Exec(name, args...))
 	return b
 }
 
 func (b *Builder) Tee(w io.Writer) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] Build.Tee %v\n", w)
+	}
+
 	b.pipes = append(b.pipes, pipe.Tee(w))
 	return b
 }
 
 func (b *Builder) WriteFile(path string, perm os.FileMode) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] Build.WriteFile %s %#o\n", path, perm)
+	}
+
 	b.pipes = append(b.pipes, pipe.WriteFile(path, perm))
 	return b
 }
@@ -55,6 +68,10 @@ func extractExport(i interface{}) (name string, value string) {
 }
 
 func (b *Builder) Export(i interface{}) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] Build.Export %v\n", i)
+	}
+
 	name, value := extractExport(i)
 	b.pipes = append(b.pipes, pipe.SetEnvVar(name, value))
 	return b
