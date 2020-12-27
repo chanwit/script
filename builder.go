@@ -48,6 +48,14 @@ func (b *Builder) Run() error {
 	return pipe.Run(pipe.Line(b.pipes...))
 }
 
+func (b *Builder) CombinedOutput() ([]byte, error) {
+	return pipe.CombinedOutput(pipe.Line(b.pipes...))
+}
+
+func (b *Builder) DividedOutput() ([]byte, []byte, error) {
+	return pipe.DividedOutput(pipe.Line(b.pipes...))
+}
+
 func (b *Builder) To(w io.Writer) error {
 	pipes := append(b.pipes, pipe.Write(w))
 	return pipe.Run(pipe.Line(pipes...))
