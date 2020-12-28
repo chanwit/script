@@ -1,6 +1,7 @@
 package script
 
 import (
+	"bufio"
 	"bytes"
 	"strconv"
 	"strings"
@@ -43,6 +44,14 @@ func (v *LocalVar) Write(p []byte) (n int, err error) {
 
 func (v *LocalVar) Export() (string, string) {
 	return v.name, v.String()
+}
+
+func (v *LocalVar) Lines() (lines []string) {
+	scanner := bufio.NewScanner(v.buffer)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines
 }
 
 func Var() *LocalVar {
