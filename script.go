@@ -52,6 +52,16 @@ func System(cmd string) *Builder {
 	return b
 }
 
+func WorkDir(dir string) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] WorkDir = %s\n", dir)
+	}
+
+	b := NewBuilder()
+	b.pipes = append(b.pipes, pipe.ChDir(dir))
+	return b
+}
+
 func Sudo(args ...string) error {
 	sudoWithArgs := strings.Join(append([]string{"sudo"}, args...), " ")
 	if Debug {

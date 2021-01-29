@@ -26,6 +26,15 @@ func (b *Builder) Exec(name string, args ...string) *Builder {
 	return b
 }
 
+func (b *Builder) WorkDir(dir string) *Builder {
+	if Debug {
+		fmt.Printf("[DEBUG] WorkDir = %s\n", dir)
+	}
+
+	b.pipes = append(b.pipes, pipe.ChDir(dir))
+	return b
+}
+
 func (b *Builder) Tee(w io.Writer) *Builder {
 	if Debug {
 		fmt.Printf("[DEBUG] Build.Tee %v\n", w)
